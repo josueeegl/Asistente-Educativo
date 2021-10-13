@@ -1,0 +1,10 @@
+[{
+    "id_estudiante": "1",
+    "id_telegram": "1",
+    "nombre": "Josué Manrique",
+    "apellido": "García Leiva",
+    "cursos": [{
+        "id": "1",
+        "curso": "Desarrollo Web"
+    }]
+}]
