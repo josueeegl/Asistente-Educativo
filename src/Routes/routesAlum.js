@@ -4,7 +4,14 @@ require('../conexion/conexion'); //conexion a la bd
 
 //#region constantes
 const {
-    alumnosCursos, alumnosSeccion, alumnosNombre, alumnosCorreo, alumnosCarnet, alumnosbot
+    alumnosCursos,
+    alumnosSeccion,
+    alumnosNombre,
+    alumnosCorreo,
+    alumnosCarnet,
+    alumnosbot,
+    aggcursoalum,
+    aggalumno, updateBot
 } = require('../controllers/alumno');
 
 const {
@@ -34,5 +41,20 @@ router.get('/api/alumbot', function (req, res, next) {
 });
 // #endregion
 
+//#region POST
+router.post('/api/alumCursos', function (req, res, next) {
+    aggcursoalum(req, res, next, validationResult);
+});
+
+router.post('/api/alumnos', function (req, res, next) {
+    aggalumno(req, res, next, validationResult);
+});
+//#endregion POST
+
+//#region PUT
+router.put('/api/alumbot', function (req, res, next) {
+    updateBot(req, res, next, validationResult);
+});
+//#endregion PUT
 
 module.exports = router;

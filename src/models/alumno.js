@@ -6,10 +6,10 @@ var alumno = new mongoose.Schema({
     nombres: { type: String, required: true},
     apellidos: { type: String, required: true},
     correo: { type: String, required: true},
-    grado: { type: String, required: true},
     seccion: { type: String, required: true},
     cursos: [{
-        id_curso: { type: String, required: true}
+        id_curso: { type: String, required: true},
+        curso: { type: String, required: true}
     }]
 });
 
