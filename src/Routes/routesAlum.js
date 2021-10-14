@@ -6,12 +6,9 @@ require('../conexion/conexion'); //conexion a la bd
 const {
     alumnosCursos,
     alumnosSeccion,
-    alumnosNombre,
-    alumnosCorreo,
-    alumnosCarnet,
-    alumnosbot,
+    buscaralumno,
     aggcursoalum,
-    aggalumno, updateBot
+    aggalumno, updateAlum, deleteAlum, deleteCurso
 } = require('../controllers/alumno');
 
 const {
@@ -27,17 +24,8 @@ router.get('/api/alumCursos', function (req, res, next) {
 router.get('/api/alumSeccion', function (req, res, next) {
     alumnosSeccion(req, res, next, validationResult);
 });
-router.get('/api/alumNombre', function (req, res, next) {
-    alumnosNombre(req, res, next, validationResult);
-});
-router.get('/api/alumCorreo', function (req, res, next) {
-    alumnosCorreo(req, res, next, validationResult);
-});
-router.get('/api/alumCarnet', function (req, res, next) {
-    alumnosCarnet(req, res, next, validationResult);
-});
-router.get('/api/alumbot', function (req, res, next) {
-    alumnosbot(req, res, next, validationResult);
+router.get('/api/buscaralumno', function (req, res, next) {
+    buscaralumno(req, res, next, validationResult);
 });
 // #endregion
 
@@ -52,9 +40,18 @@ router.post('/api/alumnos', function (req, res, next) {
 //#endregion POST
 
 //#region PUT
-router.put('/api/alumbot', function (req, res, next) {
-    updateBot(req, res, next, validationResult);
+router.put('/api/alumno', function (req, res, next) {
+    updateAlum(req, res, next, validationResult);
 });
 //#endregion PUT
 
+//#region DELETE
+router.delete('/api/alumno', function (req, res, next) {
+    deleteAlum(req, res, next, validationResult);
+});
+
+router.delete('/api/curso', function (req, res, next) {
+    deleteCurso(req, res, next, validationResult);
+});
+//#endregion DELETE
 module.exports = router;
