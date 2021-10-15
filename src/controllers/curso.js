@@ -30,6 +30,19 @@ module.exports = {
             console.log(err);
         }
     },
+
+    BuscarCursoID: async (req, res, next, validationResult) => {
+        try {
+            var cur = await curso.findOne({
+                _id: req.query.id_curso
+            });
+
+            res.status(200).send(cur);
+        } catch (err) {
+            res.status(404).send(err);
+            console.log(err);
+        }
+    },
     // Buscar cursos
     obtenerCursos: async (req, res, next, validationResult) => {
         try {

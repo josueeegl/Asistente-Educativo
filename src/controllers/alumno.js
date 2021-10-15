@@ -11,7 +11,12 @@ module.exports = {
                 curso: new RegExp(req.query.curso, "i")
             });
             var alumnos = await alumno.find({
-                'cursos.id_curso': idcurso._id.toString()
+                $or: [{
+                    'cursos.id_curso': idcurso._id.toString()
+                }, {
+                    'cursos.id_curso': req.query.id_curso
+                }]
+
             });
             res.status(200).send(alumnos);
         } catch (err) {

@@ -9,7 +9,8 @@ const {
     profesSeccion,
     buscarprofe,
     aggcursoprof,
-    aggprofe
+    aggprofe,
+    updateProfe, deleteProfe, deleteCurso, deleteseccion
 } = require('../controllers/profes');
 
 const {
@@ -41,6 +42,22 @@ router.post('/api/profe/curso', function (req, res, next) {
 router.post('/api/profe/nuevo', function (req, res, next) {
     aggprofe(req, res, next, validationResult);
 });
-//endregion
+//#endregion
 
+
+router.put('/api/profe/update', function (req, res, next) {
+    updateProfe(req, res, next, validationResult);
+});
+
+router.delete('/api/profe/delete', function (req, res, next) {
+    deleteProfe(req, res, next, validationResult);
+});
+
+router.delete('/api/profe/deletecurso', function (req, res, next) {
+    deleteCurso(req, res, next, validationResult);
+});
+
+router.delete('/api/profe/deleteseccion', function (req, res, next) {
+    deleteseccion(req, res, next, validationResult);
+});
 module.exports = router;

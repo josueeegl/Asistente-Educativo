@@ -9,7 +9,8 @@ const {
     BuscarCurso,
     EliminarCurso,
     obtenerCursos,
-    updateCurso
+    updateCurso,
+    BuscarCursoID
 } = require('../controllers/curso');
 
 const {
@@ -23,6 +24,9 @@ router.post('/api/curso', function (req, res, next) {
 });
 router.get('/api/buscarcurso', function (req, res, next) {
     BuscarCurso(req, res, next, validationResult);
+});
+router.get('/api/buscarcursoID', function (req, res, next) {
+    BuscarCursoID(req, res, next, validationResult);
 });
 router.get('/api/curso', function (req, res, next) {
     obtenerCursos(req, res, next, validationResult);
