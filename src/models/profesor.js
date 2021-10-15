@@ -7,10 +7,10 @@ var profe = new mongoose.Schema({
     apellidos: { type: String, required: true},
     correo: { type: String, required: true},
     cursos: [{
-        id_curso:  { type: String, required: true},
-        secciones: [{
-            seccion: { type: String, required: true}
-        }]
+        id_curso:  { type: String, required: true}   
+    }],
+    secciones: [{
+        seccion: { type: String, required: true}
     }]
 });
 

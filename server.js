@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({
 //Rutas de servicio
 app.use(require('./src/Routes/routesProf')); //Rutas profesores
 app.use(require('./src/Routes/routesAlum')); //Rutas alumno
+app.use(require('./src/Routes/routesCurso')); //Rutas curso
 
 
 app.listen(puerto, () => console.log("Escuchando en el puerto " + puerto));

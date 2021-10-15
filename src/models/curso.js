@@ -4,7 +4,8 @@ var curso = new mongoose.Schema({
 
     curso: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     }
 });
 

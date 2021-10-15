@@ -49,8 +49,7 @@ router.put('/api/alumno', function (req, res, next) {
 router.delete('/api/alumno', function (req, res, next) {
     deleteAlum(req, res, next, validationResult);
 });
-
-router.delete('/api/curso', function (req, res, next) {
+router.delete('/api/cursoalumno', function (req, res, next) {
     deleteCurso(req, res, next, validationResult);
 });
 //#endregion DELETE

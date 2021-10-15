@@ -1,5 +1,4 @@
 const alumno = require('../models/alumno');
-const profers = require('../models/profesor');
 const curso = require('../models/curso');
 
 module.exports = {
