@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 require('../conexion/conexion'); //conexion a la bd
-
+const {
+    verificarToken
+} = require('../middleware/log');
 //#region constantes
 
 const {
@@ -10,9 +12,15 @@ const {
     buscarprofe,
     aggcursoprof,
     aggprofe,
-    updateProfe, deleteProfe, deleteCurso, deleteseccion
+    updateProfe,
+    deleteProfe,
+    deleteCurso,
+    deleteseccion
 } = require('../controllers/profes');
 
+const {
+    logProf
+} = require('../controllers/login');
 const {
     check,
     validationResult
@@ -42,10 +50,13 @@ router.post('/api/profe/curso', function (req, res, next) {
 router.post('/api/profe/nuevo', function (req, res, next) {
     aggprofe(req, res, next, validationResult);
 });
+router.post('/api/profe/login', function (req, res, next) {
+    logProf(req, res, next, validationResult);
+});
 //#endregion
 
 
-router.put('/api/profe/update', function (req, res, next) {
+router.put('/api/profe/update',verificarToken, function (req, res, next) {
     updateProfe(req, res, next, validationResult);
 });
 
@@ -53,11 +64,11 @@ router.delete('/api/profe/delete', function (req, res, next) {
     deleteProfe(req, res, next, validationResult);
 });
 
-router.delete('/api/profe/deletecurso', function (req, res, next) {
+router.delete('/api/profe/deletecurso', verificarToken ,function (req, res, next) {
     deleteCurso(req, res, next, validationResult);
 });
 
-router.delete('/api/profe/deleteseccion', function (req, res, next) {
+router.delete('/api/profe/deleteseccion', verificarToken, function (req, res, next) {
     deleteseccion(req, res, next, validationResult);
 });
 module.exports = router;

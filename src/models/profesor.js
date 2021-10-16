@@ -19,6 +19,11 @@ var profe = new mongoose.Schema({
         required: true,
         unique: true
     },
+    password: {
+        type: String,
+        required: true
+    },
+    token: String,
     cursos: [{
         id_curso: {
             type: String,

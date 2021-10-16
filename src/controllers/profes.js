@@ -1,5 +1,6 @@
 const profes = require('../models/profesor');
 const curso = require('../models/curso');
+const bcrypt = require("bcryptjs");
 
 module.exports = {
 
@@ -77,11 +78,13 @@ module.exports = {
             var idcurso = await curso.findOne({
                 curso: new RegExp(req.query.curso, "i")
             });
+            passwordEncriptado = await bcrypt.hash(req.query.password, 10);
             var prof = new profes({
                 id_bot: '0',
                 nombres: req.query.nombre.toLowerCase(),
                 apellidos: req.query.apellido.toLowerCase(),
                 correo: req.query.correo.toLowerCase(),
+                password: passwordEncriptado,
                 cursos: [{
                     id_curso: idcurso._id.toString()
                 }],
@@ -93,7 +96,7 @@ module.exports = {
             await prof.save();
             res.status(201).send(prof);
         } catch (err) {
-            res.status(404).send('No he encontrado');
+            res.status(404).send(err);
             console.log(err);
         }
     },
