@@ -13,7 +13,7 @@ module.exports = {
             });
             var prof = await profes.find({
                 'cursos.id_curso': idcurso._id.toString()
-            });
+            }).populate('curso');
             res.status(200).send(prof);
         } catch (err) {
             res.status(404).send('No he encontrado');
@@ -23,7 +23,7 @@ module.exports = {
         try {
             var prof = await profes.find({
                 'secciones.seccion': new RegExp(req.query.seccion, "i")
-            });
+            }).populate('curso');
             res.status(200).send(prof);
         } catch (err) {
             res.status(404).send('No he encontrado');

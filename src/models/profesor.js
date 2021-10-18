@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var schema = mongoose.Schema;
 
 var profe = new mongoose.Schema({
 
@@ -26,7 +27,8 @@ var profe = new mongoose.Schema({
     token: String,
     cursos: [{
         id_curso: {
-            type: String,
+            type: schema.ObjectId,
+            ref: 'curso',
             required: true
         }
     }],

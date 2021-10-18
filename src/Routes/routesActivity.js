@@ -8,7 +8,9 @@ const {
     newActivity,
     getActivityCurso,
     updateActivity,
-    statusActivity
+    statusActivity,
+    NotaActivity,
+    notasUpdate
 } = require('../controllers/actividades');
 
 const {
@@ -31,5 +33,11 @@ router.put('/api/activity/update', function (req, res, next) {
 
 router.put('/api/activity/status', function (req, res, next) {
     statusActivity(req, res, next, validationResult);
+});
+router.put('/api/activity/nota', function (req, res, next) {
+    NotaActivity(req, res, next, validationResult);
+});
+router.put('/api/calificacion/notas', function (req, res, next) {
+    notasUpdate(req, res, next, validationResult);
 });
 module.exports = router;

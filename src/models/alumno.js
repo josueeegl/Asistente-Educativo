@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var schema = mongoose.Schema;
 
 var alumno = new mongoose.Schema({
     id_estudiante: {
@@ -33,10 +34,7 @@ var alumno = new mongoose.Schema({
     },
     token: String,
     cursos: [{
-        id_curso: {
-            type: String,
-            required: true
-        }
+        id_curso: { type: schema.ObjectId, ref: 'curso', required: true}
     }]
 });
 

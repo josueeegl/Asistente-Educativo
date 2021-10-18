@@ -1,5 +1,6 @@
 const alumno = require('../models/alumno');
 const curso = require('../models/curso');
+const notas = require('../models/notas');
 
 module.exports = {
 
@@ -17,7 +18,7 @@ module.exports = {
                     'cursos.id_curso': req.query.id_curso
                 }]
 
-            });
+            }).populate('curso');
             res.status(200).send(alumnos);
         } catch (err) {
             res.status(404).send('No he encontrado');
@@ -50,7 +51,7 @@ module.exports = {
                     id_bot: req.query.id_bot
                 }]
 
-            });
+            }).populate('curso');
             res.status(200).send(alumnos);
         } catch (err) {
             res.status(404).send('No he encontrado');
@@ -68,8 +69,13 @@ module.exports = {
                 curso: new RegExp(req.query.curso, "i")
             });
             var al = await alumno.findOne({
-                nombres: new RegExp(req.query.nombre, "i"),
-                apellidos: new RegExp(req.query.apellido, "i")
+                $or: [{
+                    nombres: new RegExp(req.query.nombre, "i"),
+                    apellidos: new RegExp(req.query.apellido, "i")
+                }, {
+                    id_estudiante: req.query.id_estudiante
+                }]
+
             });
             al.cursos.push({
                 id_curso: idcurso._id.toString(),
@@ -102,6 +108,13 @@ module.exports = {
             });
 
             await al.save();
+
+            var nt = new notas({
+                id_estudiante: al._id.toString(),
+                id_curso: idcurso._id.toString()
+            });
+
+            await notas.save();
             res.status(201).send(al);
         } catch (err) {
             res.status(404).send('No he encontrado');

@@ -2,6 +2,7 @@ const alumno = require('../models/alumno');
 const curso = require('../models/curso');
 const activities = require('../models/actividades');
 const alumActivity = require('../models/alumActivity');
+const notas = require('../models/notas');
 
 module.exports = {
 
@@ -54,7 +55,7 @@ module.exports = {
                     id_curso: req.query.id_curso
                 }]
 
-            });
+            }).populate('curso').populate('profesor');
             res.status(200).send(act);
         } catch (err) {
             res.status(404).send('No he encontrado');
@@ -106,5 +107,44 @@ module.exports = {
         }
 
     },
+    NotaActivity: async (req, res, next, validationResult) => {
+        try {
+            var act = await alumActivity.findOneAndUpdate({
+                $or: [{
+                    id_activity: req.query.id_activity
+                }, {
+                    id_estudiante: req.query.id_estudiante
+                }]
+            }, {
+                nota: req.query.nota
+            });
 
+            res.status(201).send('nota actualizada ' + req.query.estado);
+        } catch (err) {
+            res.status(404).send(err);
+            console.log(err);
+        }
+
+    },
+    notasUpdate: async (req, res, next, validationResult) => {
+        var nt = new notas({
+            pparcial: req.query.pparcial || 0,
+            sparcial: req.query.sparcial || 0,
+            efinal: req.query.efinal || 0,
+            actividades: req.query.actividades || 0,
+        })
+        try {
+            var act = await notas.findOneAndUpdate({
+                id_estudiante: req.query.id_estudiante
+            }, {
+
+            });
+
+            res.status(201).send('nota actualizada ' + req.query.estado);
+        } catch (err) {
+            res.status(404).send(err);
+            console.log(err);
+        }
+
+    },
 }
