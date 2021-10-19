@@ -1,0 +1,14 @@
+#header{
+    background-color: rgba(22, 10, 22, 0.333);
+    border-radius: 6px;
+    padding: 10px;
+    height: 70px;
+}
+
+body {
+    font-family: sans-serif;
+    
+}
+#datos{
+    display: none;
+}

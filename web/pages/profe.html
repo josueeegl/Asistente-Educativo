@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HOla profe</title>
+    <link rel="stylesheet" href="../../css/cssprof.css" type="text/css" />
+    <script defer src="../../JS/fnprofe.js"></script>
+  </head>
+  <body>
+    <div id="header">
+      <% if(data != 'ERROR') { %>
+      <div id="datos">
+        <label id="token"><%= data.token%></label>
+        <label id="correo"><%= data.correo%></label>
+        <label id="nombre"><%= data.nombres%></label>
+        <label id="apellido"><%= data.apellidos%></label>
+      </div>
+
+      <label
+        ><%= data.nombres%>
+        <br />
+        <%= data.apellidos%>
+        <br />
+        <%= data.correo%>
+      </label>
+      <%}%>
+    </div>
+  </body>
+</html>
