@@ -9,9 +9,9 @@ module.exports = {
     logProf: async (req, res) => {
         try {
             const prof = await profes.findOne({
-                correo: req.query.correo
+                correo: req.body.user
             });
-            if (prof && (await bcrypt.compare(req.query.password, prof.password))) {
+            if (prof && (await bcrypt.compare(req.body.password, prof.password))) {
                 const user = {
                     id: prof._id.toString(),
                     correo: prof.correo,
@@ -22,10 +22,18 @@ module.exports = {
                     user: user
                 }, 'clavesecreta');
                 prof.token = token;
-                res.status(200).send(prof);
+                res.status(200).render('profe.html', {
+                    data: prof
+                });
                 return;
             }
-            res.status(400).send('Datos incorrectos');
+
+            res.status(400).redirect(url.format({
+                pathname: '/',
+                query: {
+                    'data': 'ERROR'
+                }
+            }));
 
         } catch (err) {
             res.send(err);
