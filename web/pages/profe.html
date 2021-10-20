@@ -9,23 +9,42 @@
     <script defer src="../../JS/fnprofe.js"></script>
   </head>
   <body>
-    <div id="header">
-      <% if(data != 'ERROR') { %>
-      <div id="datos">
-        <label id="token"><%= data.token%></label>
-        <label id="correo"><%= data.correo%></label>
-        <label id="nombre"><%= data.nombres%></label>
-        <label id="apellido"><%= data.apellidos%></label>
-      </div>
+    <div id="FlexHeader">
+      <div id="header">
+        <% if(data != 'ERROR') { %>
+        <div id="datos">
+          <label id="token"><%= data.token%></label>
+          <label id="correo"><%= data.correo%></label>
+          <label id="nombre"><%= data.nombres%></label>
+          <label id="apellido"><%= data.apellidos%></label>
+        </div>
 
-      <label
-        ><%= data.nombres%>
-        <br />
-        <%= data.apellidos%>
-        <br />
-        <%= data.correo%>
-      </label>
-      <%}%>
+        <label
+          ><%= data.nombres%>
+          <br />
+          <%= data.apellidos%>
+          <br />
+          <%= data.correo%>
+        </label>
+
+        <%}%>
+      </div>
+      <div id="HeaderArchivo">
+        <input
+          type="file"
+          id="FileCSV"
+          placeholder="Subir archivo"
+          accept=".csv"
+        />
+
+        <button id="EnviarCSV">Enviar</button>
+      </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.2.0/papaparse.min.js"></script>
+    <script
+      src="../../JS/lectura.js"
+      type="text/javascript"
+      charset="UTF-8"
+    ></script>
   </body>
 </html>

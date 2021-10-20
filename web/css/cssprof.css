@@ -1,14 +1,42 @@
-#header{
-    background-color: rgba(22, 10, 22, 0.333);
-    border-radius: 6px;
-    padding: 10px;
-    height: 70px;
+#header {
+  background-color: rgb(1, 26, 47);
+  border-radius: 4px;
+  width: 250px;
+  margin: 10px;
+  padding: 20px;
+  height: 100px;
+}
+#HeaderArchivo {
+  background-color: rgb(59, 4, 18);
+  border-radius: 4px;
+  width: 350px;
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
 }
 
+#EnviarCSV {
+  position: relative;
+  background-color: rgb(21, 151, 60);
+  border: 0px;
+  display: block;
+  padding: 8px;
+  top: 35px;
+  color: white;
+  cursor: pointer;
+}
 body {
-    font-family: sans-serif;
-    
+  font-family: sans-serif;
+  background-color: rgb(3, 3, 3);
+  color: #fff;
 }
-#datos{
-    display: none;
+#datos {
+  display: none;
 }
+
+#FlexHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
