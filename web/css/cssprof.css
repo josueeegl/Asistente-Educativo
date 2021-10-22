@@ -1,10 +1,10 @@
-#header {
+.header {
   background-color: rgb(1, 26, 47);
   border-radius: 4px;
   width: 250px;
   margin: 10px;
-  padding: 20px;
-  height: 100px;
+  padding: 10px;
+  height: 130px;
 }
 #HeaderArchivo {
   background-color: rgb(59, 4, 18);
@@ -21,8 +21,18 @@
   border: 0px;
   display: block;
   padding: 8px;
-  top: 35px;
+  margin: auto;
+  top: 30px;
   color: white;
+  cursor: pointer;
+}
+#FileCSV {
+  position: relative;
+  border: 0px;
+  display: block;
+  padding: 8px;
+  margin: auto;
+  top: 20px;
   cursor: pointer;
 }
 body {
@@ -33,10 +43,46 @@ body {
 #datos {
   display: none;
 }
-
+#cursos {
+  position: relative;
+  margin-top: 10px;
+}
+.txtCurso {
+  margin: 3px;
+  font-size: 12px;
+  word-spacing: 2px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.txtCurso:hover {
+  color: rgb(255, 255, 255, 0.5);
+}
 #FlexHeader {
   display: flex;
   flex-wrap: wrap;
   align-content: center;
 }
-
+.tabla_alumnos {
+  background-color: rgb(1, 26, 47);
+  border-radius: 4px;
+  width: 400px;
+  margin: 10px;
+  padding: 10px;
+}
+table {
+  width: 300px;
+  background-color: white;
+  border-collapse: collapse;
+  border-radius: 4px;
+  color: black;
+}
+table th {
+  background-color: #477a7a;
+  color: white;
+  text-align: left;
+ padding: 8px;
+}
+table td {
+  border: solid 1px #ddd;
+  padding: 8px;
+}

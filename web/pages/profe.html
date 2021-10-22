@@ -6,11 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HOla profe</title>
     <link rel="stylesheet" href="../../css/cssprof.css" type="text/css" />
-    <script defer src="../../JS/fnprofe.js"></script>
   </head>
   <body>
     <div id="FlexHeader">
-      <div id="header">
+      <div class="header">
         <% if(data != 'ERROR') { %>
         <div id="datos">
           <label id="token"><%= data.token%></label>
@@ -30,21 +29,35 @@
         <%}%>
       </div>
       <div id="HeaderArchivo">
+        <label>Subir datos de alumnos</label>
         <input
           type="file"
           id="FileCSV"
           placeholder="Subir archivo"
           accept=".csv"
         />
-
         <button id="EnviarCSV">Enviar</button>
+      </div>
+      <div class="header">
+        <label>Mis cursos</label>
+        <div id="cursos">
+        </div>
+      </div>
+      <div class="tabla_alumnos">
+        <table>
+          <tr>
+            <th>No.</th>
+            <th>Hobbies</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>hola</td>
+          </tr>
+        </table>
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.2.0/papaparse.min.js"></script>
-    <script
-      src="../../JS/lectura.js"
-      type="text/javascript"
-      charset="UTF-8"
-    ></script>
+    <script defer src="../../JS/lectura.js"></script>
+    <script defer src="../../JS/fnprofe.js"></script>
   </body>
 </html>
