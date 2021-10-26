@@ -28,7 +28,7 @@ const {
 //#endregion
 
 //#region GET
-router.get('/api/profe/cursos', function (req, res, next) {
+router.get('/api/profe/cursos', verificarToken, function (req, res, next) {
     profesCursos(req, res, next, validationResult);
 });
 

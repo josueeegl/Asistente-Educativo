@@ -1,14 +1,19 @@
 const express = require('express');
 const router = express.Router();
 require('../conexion/conexion'); //conexion a la bd
-
+const {
+    verificarToken
+} = require('../middleware/log');
 //#region constantes
 const {
     alumnosCursos,
     alumnosSeccion,
     buscaralumno,
     aggcursoalum,
-    aggalumno, updateAlum, deleteAlum, deleteCurso
+    aggalumno,
+    updateAlum,
+    deleteAlum,
+    deleteCurso, alumnosNotas
 } = require('../controllers/alumno');
 
 const {
@@ -20,6 +25,9 @@ const {
 //#region GET
 router.get('/api/alumCursos', function (req, res, next) {
     alumnosCursos(req, res, next, validationResult);
+});
+router.get('/api/alumNotas', function (req, res, next) {
+    alumnosNotas(req, res, next, validationResult);
 });
 router.get('/api/alumSeccion', function (req, res, next) {
     alumnosSeccion(req, res, next, validationResult);
@@ -34,7 +42,7 @@ router.post('/api/alumCursos', function (req, res, next) {
     aggcursoalum(req, res, next, validationResult);
 });
 
-router.post('/api/alumnos', function (req, res, next) {
+router.post('/api/alumnos', verificarToken, function (req, res, next) {
     aggalumno(req, res, next, validationResult);
 });
 //#endregion POST

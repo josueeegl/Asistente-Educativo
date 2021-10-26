@@ -7,10 +7,7 @@ var alumno = new mongoose.Schema({
         required: true,
         unique: true
     },
-    id_bot: {
-        type: String,
-        unique: true
-    },
+    id_bot: String,
     nombres: {
         type: String,
         required: true
@@ -28,13 +25,12 @@ var alumno = new mongoose.Schema({
         type: String,
         required: true
     },
-    password: {
-        type: String,
-        required: true
-    },
-    token: String,
     cursos: [{
-        id_curso: { type: schema.ObjectId, ref: 'curso', required: true}
+        id_curso: {
+            type: schema.ObjectId,
+            ref: 'curso',
+            required: true
+        }
     }]
 });
 

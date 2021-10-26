@@ -2,7 +2,7 @@ const profes = require('../models/profesor');
 const alumno = require('../models/alumno');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const url = require('url');
 
 module.exports = {
 
@@ -20,7 +20,9 @@ module.exports = {
 
                 const token = jwt.sign({
                     user: user
-                }, 'clavesecreta');
+                }, 'clavesecreta', {
+                    expiresIn: "2h",
+                });
                 prof.token = token;
                 res.status(200).render('profe.html', {
                     data: prof

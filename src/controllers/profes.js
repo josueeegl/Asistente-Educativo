@@ -1,6 +1,7 @@
 const profes = require('../models/profesor');
 const curso = require('../models/curso');
 const bcrypt = require("bcryptjs");
+var datos = [];
 
 module.exports = {
 
@@ -8,15 +9,31 @@ module.exports = {
     //Funcion para mostrar profesores por el curso seleccionado
     profesCursos: async (req, res, next, validationResult) => {
         try {
-            var idcurso = await curso.findOne({
-                curso: new RegExp(req.query.curso, "i")
+            var prof = await profes.findOne({
+                correo: req.query.correo
             });
-            var prof = await profes.find({
-                'cursos.id_curso': idcurso._id.toString()
-            }).populate('curso');
-            res.status(200).send(prof);
+            var i = 0;
+            await prof.cursos.forEach(async (item) => {
+                var curs = await curso.find({
+                    _id: item.id_curso
+                });
+                curs.forEach((item) => {
+                    var data = {
+                        id_curso: item._id.toString(),
+                        curso: item.curso
+                    }
+                    datos[i] = data;
+                });
+                i++;
+                obtener(datos);
+            })
+
+            function obtener(datos) {
+                res.status(200).send(datos);
+            }
         } catch (err) {
-            res.status(404).send('No he encontrado');
+            console.log(err);
+            res.status(404).send(JSON.stringify(err));
         }
     },
     profesSeccion: async (req, res, next, validationResult) => {
@@ -86,7 +103,7 @@ module.exports = {
                 correo: req.query.correo.toLowerCase(),
                 password: passwordEncriptado,
                 cursos: [{
-                    id_curso: idcurso._id.toString()
+                    id_curso: idcurso._id
                 }],
                 secciones: [{
                     seccion: req.query.seccion.toLowerCase()

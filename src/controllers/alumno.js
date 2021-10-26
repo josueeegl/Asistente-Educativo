@@ -1,27 +1,37 @@
 const alumno = require('../models/alumno');
 const curso = require('../models/curso');
 const notas = require('../models/notas');
-
+var datos = [];
 module.exports = {
 
     //#region GET
     //Funcion para mostrar alumnos por el curso seleccionado
     alumnosCursos: async (req, res, next, validationResult) => {
         try {
-            var idcurso = await curso.findOne({
-                curso: new RegExp(req.query.curso, "i")
-            });
             var alumnos = await alumno.find({
-                $or: [{
-                    'cursos.id_curso': idcurso._id.toString()
-                }, {
-                    'cursos.id_curso': req.query.id_curso
-                }]
-
-            }).populate('curso');
+                'cursos.id_curso': req.query.id_curso
+            });
             res.status(200).send(alumnos);
         } catch (err) {
             res.status(404).send('No he encontrado');
+        }
+    },
+    alumnosNotas: async (req, res, next, validationResult) => {
+        try {
+            var nt = await notas.findOne({
+                id_estudiante: req.query.id_estudiante
+            });
+            var data = {
+                nombre: `${req.query.nombre}`,
+                id_alumno: nt.id_estudiante,
+                pparcial: nt.pparcial,
+                sparcial: nt.sparcial,
+                efinal: nt.efinal,
+                actividades: nt.actividades
+            };
+            res.status(200).send(data);
+        } catch (err) {
+            res.status(404).send(JSON.stringify(err));
         }
     },
     alumnosSeccion: async (req, res, next, validationResult) => {
@@ -39,20 +49,19 @@ module.exports = {
     //Buscar 
     buscaralumno: async (req, res, next, validationResult) => {
         try {
-            var alumnos = await alumno.find({
+            var alum = await alumno.findOne({
                 $or: [{
-                    nombres: new RegExp(req.query.nombre, "i"),
-                    apellidos: new RegExp(req.query.apellido, "i")
+                    'id_estudiante': req.query.id_estudiante
                 }, {
-                    correo: new RegExp(req.query.correo, "i")
+                    'correo': req.query.correo
                 }, {
-                    id_estudiante: req.query.id_estudiante
-                }, {
-                    id_bot: req.query.id_bot
+                    'id_bot': req.query.id_bot
                 }]
-
-            }).populate('curso');
-            res.status(200).send(alumnos);
+            });
+            if(alum == null){
+                res.status(200).send(JSON.stringify('no he encontrado'));
+            }
+            res.status(200).send(alum);
         } catch (err) {
             res.status(404).send('No he encontrado');
             console.log(err);
@@ -97,10 +106,10 @@ module.exports = {
             var al = new alumno({
                 id_estudiante: req.query.id_estudiante,
                 id_bot: '0',
-                nombres: new RegExp(req.query.nombre, "i"),
-                apellidos: new RegExp(req.query.apellido, "i"),
-                correo: new RegExp(req.query.correo, "i"),
-                seccion: new RegExp(req.query.seccion, "i"),
+                nombres: req.query.nombre.toLowerCase(),
+                apellidos: req.query.apellido.toLowerCase(),
+                correo: req.query.correo.toLowerCase(),
+                seccion: req.query.seccion.toLowerCase(),
                 cursos: [{
                     id_curso: idcurso._id.toString(),
                     curso: idcurso.curso
@@ -114,10 +123,10 @@ module.exports = {
                 id_curso: idcurso._id.toString()
             });
 
-            await notas.save();
-            res.status(201).send(al);
+            await nt.save();
+            res.status(201).send(JSON.stringify(`Alumno ${al.nombres} ingresado`));
         } catch (err) {
-            res.status(404).send('No he encontrado');
+            res.status(404).send(JSON.stringify(`error al guardar`));
             console.log(err);
         }
     },

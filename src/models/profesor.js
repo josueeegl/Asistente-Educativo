@@ -3,10 +3,7 @@ var schema = mongoose.Schema;
 
 var profe = new mongoose.Schema({
 
-    id_bot: {
-        type: String,
-        unique: true
-    },
+    id_bot: String,
     nombres: {
         type: String,
         required: true
@@ -27,7 +24,7 @@ var profe = new mongoose.Schema({
     token: String,
     cursos: [{
         id_curso: {
-            type: schema.ObjectId,
+            type: schema.Types.ObjectId,
             ref: 'curso',
             required: true
         }

@@ -3,7 +3,9 @@ const router = express.Router();
 require('../conexion/conexion'); //conexion a la bd
 
 //#region constantes
-
+const {
+    verificarToken
+} = require('../middleware/log');
 const {
     newActivity,
     getActivityCurso,
@@ -37,7 +39,7 @@ router.put('/api/activity/status', function (req, res, next) {
 router.put('/api/activity/nota', function (req, res, next) {
     NotaActivity(req, res, next, validationResult);
 });
-router.put('/api/calificacion/notas', function (req, res, next) {
+router.put('/api/calificacion/notas',verificarToken, function (req, res, next) {
     notasUpdate(req, res, next, validationResult);
 });
 module.exports = router;

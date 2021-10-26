@@ -20,7 +20,7 @@ module.exports = {
             });
             await act.save();
 
-            var alumnos = await alumno.find({
+            await alumno.find({
                 'cursos.id_curso': req.query.id_curso
             }, function (err, person) {
                 person.forEach(item => {
@@ -127,20 +127,19 @@ module.exports = {
 
     },
     notasUpdate: async (req, res, next, validationResult) => {
-        var nt = new notas({
-            pparcial: req.query.pparcial || 0,
-            sparcial: req.query.sparcial || 0,
-            efinal: req.query.efinal || 0,
-            actividades: req.query.actividades || 0,
-        })
+       
         try {
             var act = await notas.findOneAndUpdate({
-                id_estudiante: req.query.id_estudiante
+                id_estudiante: req.query.id_estudiante,
+                id_curso: req.query.id_curso
             }, {
-
+                pparcial: req.query.pparcial || 0,
+                sparcial: req.query.sparcial || 0,
+                efinal: req.query.efinal || 0,
+                actividades: req.query.actividades || 0
             });
 
-            res.status(201).send('nota actualizada ' + req.query.estado);
+            res.status(201).send(JSON.stringify('nota actualizada'));
         } catch (err) {
             res.status(404).send(err);
             console.log(err);
