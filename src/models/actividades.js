@@ -6,8 +6,8 @@ var actividad = new mongoose.Schema({
     id_profe: { type: schema.ObjectId, ref: 'profesor', required: true},
     nombre: { type: String, required: true},
     descripcion: { type: String, required: true},
-    dateFinal: { type: Date, required: true},
-    dateInicial: { type: String, required: true, default: new Date() },
+    dateFinal: { type: String, required: true},
+    dateInicial: { type: String, required: true },
 });
 
 module.exports = mongoose.model('actividad', actividad);

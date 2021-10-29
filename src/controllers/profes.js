@@ -12,25 +12,9 @@ module.exports = {
             var prof = await profes.findOne({
                 correo: req.query.correo
             });
-            var i = 0;
-            await prof.cursos.forEach(async (item) => {
-                var curs = await curso.find({
-                    _id: item.id_curso
-                });
-                curs.forEach((item) => {
-                    var data = {
-                        id_curso: item._id.toString(),
-                        curso: item.curso
-                    }
-                    datos[i] = data;
-                });
-                i++;
-                obtener(datos);
-            })
-
-            function obtener(datos) {
-                res.status(200).send(datos);
-            }
+            
+            res.status(200).send(prof);
+            
         } catch (err) {
             console.log(err);
             res.status(404).send(JSON.stringify(err));
@@ -97,7 +81,7 @@ module.exports = {
             });
             passwordEncriptado = await bcrypt.hash(req.query.password, 10);
             var prof = new profes({
-                id_bot: '0',
+                id_bot: req.query.bot,
                 nombres: req.query.nombre.toLowerCase(),
                 apellidos: req.query.apellido.toLowerCase(),
                 correo: req.query.correo.toLowerCase(),

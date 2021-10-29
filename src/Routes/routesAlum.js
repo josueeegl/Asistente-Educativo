@@ -13,7 +13,7 @@ const {
     aggalumno,
     updateAlum,
     deleteAlum,
-    deleteCurso, alumnosNotas
+    deleteCurso, alumnosNotas, alumnosActividades
 } = require('../controllers/alumno');
 
 const {
@@ -25,6 +25,9 @@ const {
 //#region GET
 router.get('/api/alumCursos', function (req, res, next) {
     alumnosCursos(req, res, next, validationResult);
+});
+router.get('/api/alumActi', function (req, res, next) {
+    alumnosActividades(req, res, next, validationResult);
 });
 router.get('/api/alumNotas', function (req, res, next) {
     alumnosNotas(req, res, next, validationResult);

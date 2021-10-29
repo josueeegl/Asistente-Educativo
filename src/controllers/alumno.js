@@ -1,6 +1,7 @@
 const alumno = require('../models/alumno');
 const curso = require('../models/curso');
 const notas = require('../models/notas');
+const actis = require('../models/alumActivity');
 var datos = [];
 module.exports = {
 
@@ -34,6 +35,17 @@ module.exports = {
             res.status(404).send(JSON.stringify(err));
         }
     },
+    alumnosActividades: async (req, res, next, validationResult) => {
+        try {
+          
+            var data = await actis.find({
+                id_activity: req.query.id_activity
+            });
+            res.status(200).send(data);
+        } catch (err) {
+            res.status(404).send(JSON.stringify(err));
+        }
+    },
     alumnosSeccion: async (req, res, next, validationResult) => {
         try {
             var alumnos = await alumno.find({
@@ -51,14 +63,14 @@ module.exports = {
         try {
             var alum = await alumno.findOne({
                 $or: [{
-                    'id_estudiante': req.query.id_estudiante
+                    '_id': req.query.id_estudiante
                 }, {
                     'correo': req.query.correo
                 }, {
                     'id_bot': req.query.id_bot
                 }]
             });
-            if(alum == null){
+            if (alum == null) {
                 res.status(200).send(JSON.stringify('no he encontrado'));
             }
             res.status(200).send(alum);
