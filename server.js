@@ -29,4 +29,6 @@ app.use(require('./src/Routes/routesCurso')); //Rutas curso
 app.use(require('./src/Routes/routesActivity')); //Rutas actividades
 
 
+require('./BOT/bot_server');
+
 app.listen(puerto, () => console.log("Escuchando en el puerto " + puerto));

@@ -68,6 +68,8 @@ module.exports = {
                     'correo': req.query.correo
                 }, {
                     'id_bot': req.query.id_bot
+                },{
+                    'codigo_correo': req.query.codigo
                 }]
             });
             if (alum == null) {
@@ -75,8 +77,7 @@ module.exports = {
             }
             res.status(200).send(alum);
         } catch (err) {
-            res.status(404).send('No he encontrado');
-            console.log(err);
+            //res.status(404).send(JSON.stringify('no he encontrado'));
         }
     },
     //#endregion
@@ -118,6 +119,7 @@ module.exports = {
             var al = new alumno({
                 id_estudiante: req.query.id_estudiante,
                 id_bot: '0',
+                codigo_correo: '0',
                 nombres: req.query.nombre.toLowerCase(),
                 apellidos: req.query.apellido.toLowerCase(),
                 correo: req.query.correo.toLowerCase(),
@@ -150,7 +152,7 @@ module.exports = {
         try {
             var al = await alumno.findOne({
                 $or: [{
-                    correo: new RegExp(req.query.correo, "i")
+                    correo: req.query.correo,
                 }, {
                     id_estudiante: req.query.id_estudiante
                 }, {
@@ -163,15 +165,15 @@ module.exports = {
             }, {
                 id_estudiante: req.query.id_estudiante || al.id_estudiante,
                 id_bot: req.query.id_bot || al.id_bot,
+                codigo_correo: req.query.codigo || al.codigo_correo,
                 nombres: req.query.nombre || al.nombres,
                 apellidos: req.query.apellido || al.apellidos,
                 correo: req.query.correo || al.correo,
                 seccion: req.query.seccion || al.seccion
             });
-            res.status(201).send('Actualizado ');
+            res.status(201).send(JSON.stringify('Actualizado'));
         } catch (err) {
-            res.status(404).send('No he encontrado');
-            console.log(err);
+            res.status(404).send(JSON.stringify(err));
         }
     },
     //#endregion PUT

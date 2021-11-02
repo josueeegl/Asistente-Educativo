@@ -8,6 +8,7 @@ var alumno = new mongoose.Schema({
         unique: true
     },
     id_bot: String,
+    codigo_correo: String,
     nombres: {
         type: String,
         required: true
