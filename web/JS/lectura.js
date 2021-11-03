@@ -13,12 +13,11 @@ document.getElementById('EnviarCSV').addEventListener("click", (e) => {
 function datos(result) {
     var data = result.data;
     for (let i = 1; i < data.length; i++) {
-        insertar(data[i]);
+        buscaralumno(data[i]);
     }
 }
 
 const insertar = (data) => {
-
     fetch('/api/alumnos?' + new URLSearchParams({
         nombre: data[1],
         apellido: data[0],
@@ -32,4 +31,24 @@ const insertar = (data) => {
     }).then(res => res.json()).then(data => {
         console.log(data);
     });
+}
+
+function buscaralumno(data) {
+    fetch('/api/buscaralumno?' + new URLSearchParams({
+        id_estudiante: data[3]
+    }), {
+        method: 'GET'
+    }).then(res => res.json()).then(item => {
+        verificar(item, data);
+    }).catch(err => {
+        return err
+    });
+}
+
+function verificar(item, data) {
+    if (item.id_estudiante === data[3]) {
+        console.log('ya existe');
+    } else {
+        insertar(data);
+    }
 }
