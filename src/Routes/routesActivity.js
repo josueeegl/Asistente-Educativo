@@ -12,7 +12,7 @@ const {
     updateActivity,
     statusActivity,
     NotaActivity,
-    notasUpdate
+    notasUpdate, buscaractivity
 } = require('../controllers/actividades');
 
 const {
@@ -27,6 +27,9 @@ router.post('/api/activity/nueva', function (req, res, next) {
 
 router.get('/api/activity/obtener', function (req, res, next) {
     getActivityCurso(req, res, next, validationResult);
+});
+router.get('/api/activity/buscar', function (req, res, next) {
+    buscaractivity(req, res, next, validationResult);
 });
 
 router.put('/api/activity/update', function (req, res, next) {

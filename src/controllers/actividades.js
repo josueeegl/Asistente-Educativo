@@ -56,6 +56,17 @@ module.exports = {
             res.status(404).send(JSON.stringify('No Hay'));
         }
     },
+    buscaractivity: async (req, res, next, validationResult) => {
+        try {
+            
+            var act = await activities.findOne({
+                    _id: req.query.id,
+            });
+            res.status(200).send(act);
+        } catch (err) {
+            res.status(404).send(JSON.stringify('No Hay'));
+        }
+    },
 
     //PUT
     updateActivity: async (req, res, next, validationResult) => {

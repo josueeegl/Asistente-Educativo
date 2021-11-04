@@ -25,6 +25,7 @@ module.exports = {
             var data = {
                 nombre: `${req.query.nombre}`,
                 id_alumno: nt.id_estudiante,
+                id_curso: nt.id_curso,
                 pparcial: nt.pparcial,
                 sparcial: nt.sparcial,
                 efinal: nt.efinal,
@@ -39,7 +40,11 @@ module.exports = {
         try {
           
             var data = await actis.find({
-                id_activity: req.query.id_activity
+                $or: [{
+                    'id_activity': req.query.id_activity
+                }, {
+                    'id_estudiante': req.query.id_estudiante
+                }]
             });
             res.status(200).send(data);
         } catch (err) {
@@ -70,13 +75,17 @@ module.exports = {
                     'id_bot': req.query.id_bot
                 },{
                     'codigo_correo': req.query.codigo
+                },{
+                    'id_estudiante': req.query.carnet
                 }]
             });
             if (alum == null) {
                 res.status(200).send(JSON.stringify('no he encontrado'));
+            }else{
+                res.status(200).send(alum);
             }
-            res.status(200).send(alum);
         } catch (err) {
+            console.log(err);
             //res.status(404).send(JSON.stringify('no he encontrado'));
         }
     },
