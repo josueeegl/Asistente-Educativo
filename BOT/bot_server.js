@@ -3,24 +3,27 @@ const {
     Telegraf
 } = require('telegraf');
 const bot = new Telegraf(token_bot);
-const {
-    verificar_id, verificar_codigo
-} = require('./verificar');
+
 const {
     enviar_correo,
     generateRandomString
 } = require('./correo');
 const {
-    update_codigo, update_bot
+    update_codigo,
+    verificar_id
 } = require('./funciones');
+const {
+    validando_pin, obtener_cursos, obtener_actividades, obtener_notas
+} = require('./consultas.js');
 
 
 bot.start((cxt) => {
     verificar_id(cxt.from.id).then(async val => {
         if (val) {
-            cxt.reply(`Hola ${cxt.from.first_name}!`);
+            
+            sendStarMessage(cxt); // llama funcion enviar botones
         } else {
-           await cxt.reply(`Bienvenido ${cxt.from.first_name}! \nYo seré tu asistente de educación virtual. \nPrimero debemos verificar tu correo electronico de la \nuniversidad.`);
+            await cxt.reply(`Bienvenido ${cxt.from.first_name}! \nYo seré tu asistente de educación virtual. \nPrimero debemos verificar tu correo electronico de la \nuniversidad.`);
             cxt.reply(`Escribe tu correo electronico\nEjemplo: \nmibot@miumg.edu.gt`);
         }
     });
@@ -28,9 +31,9 @@ bot.start((cxt) => {
 
 bot.email(new RegExp('([a-zA-Z0-9]\@miumg\.edu\.gt)'), async (cxt) => {
     var cd = generateRandomString();
-    await update_codigo(cxt.message.text, cd + '/'+ cxt.from.id).then(async val => {
+    await update_codigo(cxt.message.text, cd + '/' + cxt.from.id).then(async val => {
         if (val) {
-            await enviar_correo(cxt.message.text, cd + '/'+ cxt.from.id);
+            await enviar_correo(cxt.message.text, cd + '/' + cxt.from.id);
             cxt.reply(`Verifica el correo enviado a ${cxt.message.text}`);
         } else {
             cxt.reply(`El correo ${cxt.message.text} no esta registrado, comunicate con tu profesor`);
@@ -38,32 +41,93 @@ bot.email(new RegExp('([a-zA-Z0-9]\@miumg\.edu\.gt)'), async (cxt) => {
     });
 });
 
-bot.on('text', async cxt =>{
-    var recibido = cxt.message.text;
-    var palabras = recibido.split(' ');
-    var id = palabras[1].split('/')[1];
-    if(palabras[0].toLowerCase() == 'pin'){
-        if(cxt.from.id == id){
-            await verificar_codigo(palabras[1]).then(async val => {
-                if (val == 'x') {
-                    cxt.reply(`El codigo no coincide.`);
-                } else {
-
-                    await update_bot(val._id, cxt.from.id).then(x => {
-                        if(x){
-                            cxt.reply(`Hola, ${val.nombres} ${val.apellidos} has sido registrado exitosamente!\n
-                            Correo: ${val.correo} \n
-                            ID de la U: ${val.id_estudiante}\n
-                            Seccion: ${val.seccion}\n\nComandos:\n/menu`);
-                        }else{
-                            xt.reply(`Hubo un problema al registrar :(`);
-                        }
-                    });   
-                }
-            });
-        }else{
-            cxt.reply(`Tu codigo no es valido, intenta de nuevo.\n/menu`);
+bot.action('miscursos', (ctx) => {
+    ctx.answerCbQuery();
+    verificar_id(ctx.from.id).then(async val => {
+        if (val) {
+            obtener_cursos(ctx);
+        } else {
+            await ctx.reply(`Bienvenido ${ctx.from.first_name}! \nYo seré tu asistente de educación virtual. \nPrimero debemos verificar tu correo electronico de la \nuniversidad.`);
+            ctx.reply(`Escribe tu correo electronico\nEjemplo: \nmibot@miumg.edu.gt`);
         }
-    }
-})
+    });
+});
+
+bot.action('actividades', (ctx) => {
+    verificar_id(ctx.from.id).then(async val => {
+        if (val) {
+            obtener_actividades(ctx);
+        } else {
+            await ctx.reply(`Bienvenido ${ctx.from.first_name}! \nYo seré tu asistente de educación virtual. \nPrimero debemos verificar tu correo electronico de la \nuniversidad.`);
+            ctx.reply(`Escribe tu correo electronico\nEjemplo: \nmibot@miumg.edu.gt`);
+        }
+    });
+});
+bot.action('notas', (ctx) => {
+    verificar_id(ctx.from.id).then(async val => {
+        if (val) {
+            obtener_notas(ctx);
+        } else {
+            await ctx.reply(`Bienvenido ${ctx.from.first_name}! \nYo seré tu asistente de educación virtual. \nPrimero debemos verificar tu correo electronico de la \nuniversidad.`);
+            ctx.reply(`Escribe tu correo electronico\nEjemplo: \nmibot@miumg.edu.gt`);
+        }
+    });
+});
+
+bot.on('text', async cxt => {
+    verificar_id(cxt.from.id).then(async val => {
+        if (val) {
+            
+            sendStarMessage(cxt);
+        } else {
+            var recibido = cxt.message.text.toLowerCase();
+            if (recibido.startsWith('pin')) {
+                validando_pin(recibido, cxt);
+            } else {
+                await cxt.reply(`Bienvenido ${cxt.from.first_name}! \nYo seré tu asistente de educación virtual. \nPrimero debemos verificar tu correo electronico de la \nuniversidad.`);
+            cxt.reply(`Escribe tu correo electronico\nEjemplo: \nmibot@miumg.edu.gt`);
+            }
+        }
+    });
+
+});
+
+
+
+
+
+function sendStarMessage(ctx) {
+    const starMessage = "👋 Bienbenido a tu asistente personal, " + ctx.from.first_name + "👏 \n\nSelecciona la consulta que deseas verificar 👇";
+
+    bot.telegram.sendMessage(ctx.chat.id, starMessage,{
+        reply_markup: {
+            inline_keyboard: [
+                [{
+                    text: "📚📖  Cursos",
+                    callback_data: 'miscursos'
+                }],
+                [{
+                    text: "📆📃  Actividades",
+                    callback_data: 'actividades'
+                }],
+                [{
+                    text: "📊📝  Notas",
+                    callback_data: 'notas'
+                }]
+
+            ]
+
+        }
+    })
+
+}
+
+
+
+
+
+
+
+
+
 module.exports = bot.launch();
