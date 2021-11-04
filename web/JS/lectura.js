@@ -35,10 +35,11 @@ const insertar = (data) => {
 
 function buscaralumno(data) {
     fetch('/api/buscaralumno?' + new URLSearchParams({
-        id_estudiante: data[3]
+        carnet: data[3]
     }), {
         method: 'GET'
     }).then(res => res.json()).then(item => {
+        console.log(item);
         verificar(item, data);
     }).catch(err => {
         return err
