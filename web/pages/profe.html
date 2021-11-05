@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HOla profe</title>
+    <link rel="stylesheet" href="../../css/cssprof.css" type="text/css" />
+  </head>
+  <body>
+    <div id="FlexHeader">
+      <div class="header">
+        <% if(data != 'ERROR') { %>
+        <div id="datos">
+          <label id="token"><%= data.token%></label>
+          <label id="correo"><%= data.correo%></label>
+          <label id="nombre"><%= data.nombres%></label>
+          <label id="apellido"><%= data.apellidos%></label>
+          <label id="cursoSeleccionado"></label>
+          <label id="IDprofe"></label>
+        </div>
+
+        <label
+          ><%= data.nombres%>
+          <br />
+          <%= data.apellidos%>
+          <br />
+          <%= data.correo%>
+        </label>
+
+        <%}%>
+      </div>
+      <div id="HeaderArchivo">
+        <label>Subir datos de alumnos</label>
+        <input
+          type="file"
+          id="FileCSV"
+          placeholder="Subir archivo"
+          accept=".csv"
+        />
+        <button id="EnviarCSV">Enviar</button>
+      </div>
+      <div class="header">
+        <label>Mis cursos</label>
+        <div id="cursos"></div>
+      </div>
+      <div id="tabla_alumnos">
+        <h4 id="title_curso">Notas</h4>
+        <table id="tabla"></table>
+      </div>
+      <div id="divActivity">
+        <p>Titulo: <input type="text" id="acTitle" required /></p>
+        <p>Fecha inicial: <input type="datetime-local" id="acFI" required /></p>
+        <p>Vencimiento: <input type="datetime-local" id="acFF" required /></p>
+        <textarea
+          name="acDescrip"
+          id="acDescrip"
+          cols="40"
+          rows="10"
+          placeholder="Detalles..."
+        ></textarea>
+        <button id="btnCancelar">Cancelar</button>
+        <button id="btnEnviar">Publicar</button>
+      </div>
+      <div id="actividadesxcurso">
+        <h4 id="title_curso">Actividades</h4>
+        <button id="btnActi">+ nueva actividad</button>
+        <div id="actis">
+          <div class="actis2">
+            <p>Titulo</p>
+            <p>Inicial</p>
+            <p><input type="text" value="Vencimiento" /></p>
+          </div>
+        </div>
+      </div>
+      <div id="actxAlumnos">
+        
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.2.0/papaparse.min.js"></script>
+    <script defer src="../../JS/dibujar.js"></script>
+    <script defer src="../../JS/activities.js"></script>
+    <script defer src="../../JS/lectura.js"></script>
+    <script defer src="../../JS/fnprofe.js"></script>
+  </body>
+</html>
