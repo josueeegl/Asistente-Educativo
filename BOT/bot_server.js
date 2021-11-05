@@ -83,7 +83,7 @@ bot.action('notas', (ctx) => {
 bot.on('text', async cxt => {
     verificar_id(cxt.from.id).then(async val => {
         if (val) {
-            sendStarMessage(cxt);
+            sendStarMessage(cxt);// llama funcion enviar botones
         } else {
             var recibido = cxt.message.text.toLowerCase();
             if (recibido.startsWith('pin')) {
@@ -97,8 +97,6 @@ bot.on('text', async cxt => {
     });
 
 });
-
-
 
 function sendStarMessage(ctx) {
     const starMessage = "👋 Bienvenido a tu asistente personal, " + ctx.from.first_name + "👏 \n\nSelecciona la consulta que deseas verificar 👇";
