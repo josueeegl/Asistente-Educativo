@@ -6,7 +6,7 @@ const {
     verificar_codigo
 } = require('./funciones');
 
-var mensaje = '';
+var mensaje = '✅ Cursos actualmente Inscrito 📚 \n';
 var x = 0;
 const buscar_cursos = async (id, ctx) => {
     try {
@@ -42,7 +42,7 @@ const actividades = async (id, estado, ctx) => {
     }),{
         method: 'GET',
     }).then(res => res.json()).then(data => {
-        ctx.reply(`${apartado}\nTitulo:  ${data.nombre}\n\nInstrucciones: ${data.descripcion}\n\nVencimiento: ${data.dateFinal}\n\nEstado: ${estado} \n ${apartado}`)
+        ctx.reply(`${apartado}\n📝Titulo:  ${data.nombre}\n\n💬Instrucciones: ${data.descripcion}\n\n📅Vencimiento: ${data.dateFinal}\n\n📍Estado: ${estado} \n ${apartado}`)
     });
 }
 
@@ -64,7 +64,7 @@ const notas_curso = async (data, ctx) => {
         }), {
             method: 'GET',
         }).then(res => res.json()).then(item => {
-            ctx.reply(`Notas actuales:\n\nCurso: ${item.curso}\nParcial #1: ${data.pparcial}\nParcial #2: ${data.sparcial}\nActividades: ${data.actividades}\nExamen final: ${data.efinal}\nNota final: ${parseInt(data.pparcial) + parseInt(data.sparcial) + parseInt(data.actividades) + parseInt(data.efinal)}`);
+            ctx.reply(`${apartado}\n     📈📑 NOTAS ACTUALES 🔖\n${apartado}\n\n📕 Curso: ${item.curso}\n📃 Parcial #1: ${data.pparcial}\n📃 Parcial #2: ${data.sparcial}\n📋 Actividades: ${data.actividades}\n📃Examen final: ${data.efinal}\n\n\n🚨 Nota final 👉 ${parseInt(data.pparcial) + parseInt(data.sparcial) + parseInt(data.actividades) + parseInt(data.efinal)}\n${apartado}`);
         });
     } catch (e) {
         console.log(e.message);
@@ -79,19 +79,21 @@ module.exports = {
             if (cxt.from.id == id) {
                 await verificar_codigo(palabras[1]).then(async val => {
                     if (val == 'x') {
-                        cxt.reply(`El codigo no coincide.`);
+                        cxt.reply(`🔐🔔El codigo no coincide.`);
                     } else {
                         await update_bot(val._id, cxt.from.id).then(x => {
                             if (x) {
-                                cxt.reply(`Hola, ${val.nombres} ${val.apellidos} has sido registrado exitosamente!\nCorreo: ${val.correo}\nCarné: ${val.id_estudiante}\nSeccion: ${val.seccion}\n\nComandos:\n/miscursos\n/actividades\n/notas`);
+
+                                cxt.reply(`👋 Hola, ${val.nombres} ${val.apellidos} has sido Verificado exitosamente!✅\n📌Correo: ${val.correo}\n📌Carné: ${val.id_estudiante}\n📌Seccion: ${val.seccion}\n`);
+                                sendStarMessagee(cxt);
                             } else {
-                                cxt.reply(`Hubo un problema al registrar :(`);
+                                cxt.reply(`⛔⚠Hubo un problema al registrar :(`);
                             }
                         });
                     }
                 });
             } else {
-                cxt.reply(`Tu codigo no es valido, intenta de nuevo.\n/menu`);
+                cxt.reply(`⛔⚠Tu codigo no es valido, intenta de nuevo.\n/menu`);
             }
         }
     },
@@ -110,11 +112,6 @@ module.exports = {
                 ctx.reply(mensaje);
                 mensaje = '✅ Cursos actualmente Inscrito 📚 \n';
                 x = 0;
-            }
-            else {
-                ctx.reply(mensaje);
-                mensaje = '❌📑Actualmente no estas Inscrito en ningun Curso';
-                
             }
         });
     },
@@ -139,4 +136,32 @@ module.exports = {
             buscar_notas(data, ctx);
         });
     }
+}
+
+
+
+function sendStarMessagee(ctx) {
+    const starMessage = "👋 Bienvenido a tu asistente personal, " + ctx.from.first_name + "👏 \n\nSelecciona la consulta que deseas verificar 👇";
+
+    bot.telegram.sendMessage(ctx.chat.id, starMessage,{
+        reply_markup: {
+            inline_keyboard: [
+                [{
+                    text: "📚📖  Cursos",
+                    callback_data: 'miscursos'
+                }],
+                [{
+                    text: "📆📃  Actividades",
+                    callback_data: 'actividades'
+                }],
+                [{
+                    text: "📊📝  Notas",
+                    callback_data: 'notas'
+                }]
+
+            ]
+
+        }
+    })
+
 }
