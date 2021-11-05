@@ -21,7 +21,6 @@ const {
 bot.start((cxt) => {
     verificar_id(cxt.from.id).then(async val => {
         if (val) {
-            
             sendStarMessage(cxt); // llama funcion enviar botones
         } else {
             await cxt.reply(`👋 Bienvenido ${cxt.from.first_name}! \n seré tu asistente de educación virtual💻
@@ -82,10 +81,8 @@ bot.action('notas', (ctx) => {
 });
 
 bot.on('text', async cxt => {
-    
     verificar_id(cxt.from.id).then(async val => {
         if (val) {
-            
             sendStarMessage(cxt);
         } else {
             var recibido = cxt.message.text.toLowerCase();
@@ -100,8 +97,6 @@ bot.on('text', async cxt => {
     });
 
 });
-
-
 
 
 
@@ -123,9 +118,7 @@ function sendStarMessage(ctx) {
                     text: "📊📝  Notas",
                     callback_data: 'notas'
                 }]
-
             ]
-
         }
     })
 
